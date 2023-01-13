@@ -40,18 +40,10 @@ def pfa(path, number_sweeps=1, cluster_size=50, alpha=0.01, min_n_datapoints_a_b
     print("Time needed for the PFA in seconds: " + str(time.time()-start_time))
 
 
-    list_principal_features_for_intersection=[]
-    for i in list_pf:
-        intermediate_list = []
-        for j in i:
-            for k in j:
-                if k !='*':
-                    intermediate_list.append(k)
-        list_principal_features_for_intersection.append(intermediate_list)
-    pf_from_intersection=list_principal_features_for_intersection[0]
+    pf_from_intersection=list_pf[0]
     if number_sweeps > 1:
-        for i in range(1, len(list_principal_features_for_intersection)):
-            pf_from_intersection=list(set(pf_from_intersection).intersection(set(list_principal_features_for_intersection[i])))
+        for i in range(1, len(list_pf)):
+            pf_from_intersection=list(set(pf_from_intersection).intersection(set(list_pf[i])))
         f = open("principal_features_intersection.txt", "w")
         for i in pf_from_intersection:
             f.write(str(i)+str(","))
