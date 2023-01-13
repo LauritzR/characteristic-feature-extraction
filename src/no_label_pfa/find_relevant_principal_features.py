@@ -13,7 +13,7 @@ def find_relevant_principal_features(data,number_output_functions,cluster_size,a
     m = data.shape[0] #number features
     n = data.shape[1] #number of data points
     l = [0 for i in range(0, m)]  # list of lists with the points of support for the binning
-    freq_data = [0 for i in range(0, m)] # list of histograms
+    freq_data = [[0] for i in range(0, m)] # list of histograms
     left_features = [i for i in range(0, m)]  # list of features that is step by step reduced to the relevant ones
     constant_features = []
 
@@ -49,6 +49,7 @@ def find_relevant_principal_features(data,number_output_functions,cluster_size,a
                 if len(list_points_of_support) > 2:     # Test if there are at least 3 points of support (only two can happen if there only constant values at the beginning and only less than n_min_datapoints_a_bin in the end)
                     list_points_of_support.pop(-2)
             l[i] = list_points_of_support
+        
             freq_data[i] = np.histogram(data[i, :], bins=l[i])[0]
     print("Binning done!")
     print("List of features with constant values:")
@@ -67,16 +68,19 @@ def find_relevant_principal_features(data,number_output_functions,cluster_size,a
         list_principal_features, smaller_than5, smaller_than1 = principal_feature_analysis(cluster_size, data, number_output_functions, freq_data, l, left_features, alpha, shuffle_feature_numbers)
 
     # Assign global index to each principal feature
-    list_principal_features_global_indices = []
+    list_principal_features_global_indices_structured = []
     for i in list_principal_features:
         intermediate_list = []
         for j in i:
-            shift_variable = j + number_output_functions  # Output functions, which are not considered in the PFA, are the values 0,1,...,number_output_functions-1 in left_features
-            intermediate_list.append(left_features[shift_variable])
-        list_principal_features_global_indices.append(intermediate_list)
+            if len(freq_data[left_features[j+number_output_functions]]) > 1:
+                intermediate_list.append(left_features[j+number_output_functions]-number_output_functions)
+        if len(intermediate_list) > 0:
+            list_principal_features_global_indices_structured.append(intermediate_list)
 
     print('principal features:')
-    print(list_principal_features_global_indices)
+    print(list_principal_features_global_indices_structured)
 
 
-    return list_principal_features_global_indices
+    list_principal_features_global_indices = [pf for sublist in list_principal_features_global_indices_structured for pf in sublist]
+
+    return list_principal_features_global_indices, list_principal_features_global_indices_structured
