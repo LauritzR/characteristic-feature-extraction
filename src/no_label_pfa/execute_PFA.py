@@ -31,7 +31,7 @@ def pfa(path, number_sweeps=1, cluster_size=50, alpha=0.01, min_n_datapoints_a_b
         # Output the principal features in a list where the numbers correspond to the rows of the input csv-file
         f = open("principal_features"+str(sweep)+".txt", "w")
         for i in pf:
-            f.write(str(j) + str(","))
+            f.write(str(i) + str(","))
             f.write("\n")
         f.close()
        
