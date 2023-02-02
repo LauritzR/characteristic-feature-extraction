@@ -1,13 +1,42 @@
 # Copyright with the authors of the publication "A principal feature analysis"
 
+
+from .find_relevant_principal_features import find_relevant_principal_features
+import time
+import pandas as pd
 import numpy as np
-from principal_feature_analysis import principal_feature_analysis
-from parallel_principal_feature_analysis import principal_feature_analysis as par_principal_feature_analysis
+from configparser import ConfigParser
+
+
+# paramters for the PFA
+# path: string path to the input file
+# number_output_functions: Number of output features that are to be modeled, i.e. the number of components of the vector-valued output-function. The values are stored in the first number_output_functions rows of the csv-file.
+# number_sweeps: Number of sweeps of the PFA. The result of the last sweep is returned.
+# In addition, the return of each sweep are interesected and returned as well.
+# cluster_size: number of nodes of a subgraph in the principal_feature_analysis
+# alpha=0.01: Level of significance
+# min_n_datapoints_a_bin: minimum number of data points for each bin in the chi-square test
+# shuffle_feature_numbers: if True the number of the features is randomly shuffled
+# frac: the fraction of the dataset that is used for the analysis. The set is randomly sampled from the input csv
+# calculate_mutual_information: if True the mutual information with features from the PFA with the components of the output function is calculated
+# basis_log_mutual_information: basis of the logarithm used in the calculation of the mutual information
+# parallel: if True the parallelized version of the PFA is used
+
 
 def pfa(path, number_sweeps=1, cluster_size=50, alpha=0.01, min_n_datapoints_a_bin=500, shuffle_feature_numbers=0, frac=1, calculate_mutual_information=0, basis_log_mutual_information=2, parallel=False):
+
+    config = ConfigParser()
+
+    config["PFA PARAMETERS"] = {
+        "min_n_datapoints_a_bin": str(min_n_datapoints_a_bin),
+        "alpha": str(alpha)
+    }
+    with open('config.ini', 'w') as conf:
+        config.write(conf)
+
     # pf_ds = principal features related to output functions, pf = all principal features
-    start_time=time.time()
-    number_output_functions=1
+    start_time = time.time()
+    number_output_functions = 1
     list_pf = []
 
     # The csv file's content is an m x n Matrix with m - number components of output-function = number features and n = number of data points
@@ -17,11 +46,11 @@ def pfa(path, number_sweeps=1, cluster_size=50, alpha=0.01, min_n_datapoints_a_b
     dummy = np.zeros(data.shape[1])
     data = pd.concat((pd.DataFrame(dummy).T, data), axis=0, ignore_index=True)
 
-
-    for sweep in range(0,number_sweeps):
+    for sweep in range(0, number_sweeps):
         print("Sweep number: " + str(sweep+1))
-        pf, pf_s=find_relevant_principal_features(data,number_output_functions,cluster_size,alpha,min_n_datapoints_a_bin,shuffle_feature_numbers,frac, parallel)
-        list_pf.append(pf_s)
+        pf, pf_s = find_relevant_principal_features(
+            data, number_output_functions, cluster_size, alpha, min_n_datapoints_a_bin, shuffle_feature_numbers, frac, parallel)
+        list_pf.append(pf)
         f = open("principal_features_structured"+str(sweep)+".txt", "w")
         for i in pf_s:
             for j in i:
@@ -34,19 +63,17 @@ def pfa(path, number_sweeps=1, cluster_size=50, alpha=0.01, min_n_datapoints_a_b
             f.write(str(i) + str(","))
             f.write("\n")
         f.close()
-       
-
 
     print("Time needed for the PFA in seconds: " + str(time.time()-start_time))
 
-
-    pf_from_intersection=list_pf[0]
+    pf_from_intersection = list_pf[0]
     if number_sweeps > 1:
         for i in range(1, len(list_pf)):
-            pf_from_intersection=list(set(pf_from_intersection).intersection(set(list_pf[i])))
+            pf_from_intersection = list(
+                set(pf_from_intersection).intersection(set(list_pf[i])))
         f = open("principal_features_intersection.txt", "w")
         for i in pf_from_intersection:
             f.write(str(i)+str(","))
         f.close()
- 
+
     return pf_from_intersection
