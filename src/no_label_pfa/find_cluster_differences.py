@@ -155,7 +155,7 @@ def find_cluster_differences(path_original_data,path_principal_features="princip
     f = open("principal_features_cluster_differences.txt", "w")
     for i in principal_features_depending_on_system_state:
         for j in i:
-            f.write(str(pfs[j-1]) + str(","))
+            f.write(str(pfs[j]) + str(","))
         f.write("\n")
     f.close()
 
