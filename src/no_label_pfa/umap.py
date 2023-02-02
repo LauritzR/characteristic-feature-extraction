@@ -3,20 +3,29 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
+# umap paramters
+# path_original_data: string path to the original input file
+# path_principal_features: string path to the txt file containing the principal features
+# n_components: number of components in the embedding output
+# init: initialization of embedding. Default 'random'
+# random_state: seed used by random number generator
+# plot: flag for visual output
 
-def umap(data_path, pf_path, n_components=2, init='random', random_state=0):
+def umap(path_original_data, path_principal_features="principal_features0.txt", n_components=2, init='random', random_state=0, plot=True):
 
-    with open(pf_path) as f:
-        pfs = f.readlines() 
+    with open(path_principal_features) as f:
+        pfs = f.readlines()
     pfs = [int(x[:len(x)-2]) for x in pfs]
 
-    X = pd.read_csv(data_path, sep=',', header=None)
+    X = pd.read_csv(path_original_data, sep=',', header=None)
 
     X_pf = X.T[pfs]
 
-    X_embedded = UMAP(n_components=2, init='random', random_state=0).fit_transform(X_pf).T
+    X_embedded = UMAP(n_components=n_components, init=init,
+                      random_state=random_state).fit_transform(X_pf).T
 
     np.savetxt("umap_output.csv", X_embedded, delimiter=",")
 
-    plt.scatter(X_embedded[0], X_embedded[1])
-    plt.show()
+    if plot:
+        plt.scatter(X_embedded[0], X_embedded[1])
+        plt.show()
