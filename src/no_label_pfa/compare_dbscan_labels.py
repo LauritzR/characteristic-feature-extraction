@@ -4,10 +4,11 @@ import matplotlib.pyplot as plt
 
 # compare_dbscan_labels paramters
 # path_comparison_labels: string path to the file containing labels to compare
-def compare_dbscan_labels(path_comparison_labels):
+# path_dbscan_labels: string path to the file containing the labels found by dbscan, optional
+def compare_dbscan_labels(path_comparison_labels, path_dbscan_labels="dbscan_labels.csv"):
     comparison_labels = pd.read_csv(
         path_comparison_labels, sep=',', header=None).to_numpy().flatten()
-    clustering = pd.read_csv("dbscan_labels.csv", sep=',',
+    clustering = pd.read_csv(path_dbscan_labels, sep=',',
                              header=None).to_numpy().flatten()
 
     cluster_bins = []
@@ -17,7 +18,7 @@ def compare_dbscan_labels(path_comparison_labels):
         cluster_bins.append(tmp)
 
     plt.ylabel("Count", fontsize=12)
-    plt.xlabel("DBSCAN Prediction", fontsize=12)
+    plt.xlabel("DBSCAN Label", fontsize=12)
 
     plt.xticks(range(len(np.unique(clustering))))
 
