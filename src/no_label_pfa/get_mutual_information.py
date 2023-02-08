@@ -107,6 +107,7 @@ def get_mutual_information(path_original_data, path_principal_features_cluster_d
             range(number_output_functions, len(left_features)))
         list_of_features.insert(0, i)
         id_features = np.array(list_variables)[left_features]
+        id_features = [x-number_output_functions for x in id_features]
 
         for j in list_of_features:
             freq_data_product = ((np.histogram2d(
