@@ -6,15 +6,15 @@ from sklearn.metrics import accuracy_score
 from sklearn import preprocessing
 import random
 
+
 # Function to calculate the Shannon mutal information of features with the components of the output function
 # path_original_data: string path to the original input file
 # path_labels: string path to the file containing lables for the dataset (e.g. the dbscan output file)
 # path_mutual_information: string path to the file containing the labels and their mutual information
 # n_highest_mutual_information:  number of features with the highest mutual information to select. Default value -1 selects all principal features.
 # number_sweeps: number of sweeps for training
-def validate_feature_selection(path_original_data, path_labels="dbscan_labels.csv", path_mutual_information="mutual_information0.csv", n_highest_mutual_information=-1, number_sweeps=20):
-    gene_selection = 0  # validate on PFA = 0, random genes = 1 or all genes = 2
-
+# feature_selection: PFA = 0, random features = 1 or all features = 2
+def validate_feature_selection(path_original_data, path_labels="dbscan_labels.csv", path_mutual_information="mutual_information0.csv", n_highest_mutual_information=-1, number_sweeps=20, feature_selection=0):
     data = pd.read_csv(path_original_data, sep=",", header=None).transpose()
 
     clustering = pd.read_csv(path_labels, sep=',', header=None).to_numpy()
@@ -26,29 +26,28 @@ def validate_feature_selection(path_original_data, path_labels="dbscan_labels.cs
     data = data.transpose().to_numpy()
     data_test = data_test.transpose().to_numpy()
 
-    # Gene recommendation from PFA and mutual information
-    genes_mutual_information_label = pd.read_csv(
+    # Features recommendation from PFA and mutual information
+    features_mutual_information_label = pd.read_csv(
         path_mutual_information).sort_values(by=['mutual information'], ascending=False)
     print("Mutual information of system state with itself: ",
-          genes_mutual_information_label['mutual information'].iloc[0])
+          features_mutual_information_label['mutual information'].iloc[0])
 
-    genes_mutual_information_label = genes_mutual_information_label.iloc[1:, :]
+    features_mutual_information_label = features_mutual_information_label.iloc[1:, :]
 
     print("Mutual information of the first selected feature: ",
-          genes_mutual_information_label['mutual information'].iloc[0])
+          features_mutual_information_label['mutual information'].iloc[0])
     print("Mutual information of the last selected feature: ",
-          genes_mutual_information_label['mutual information'].iloc[n_highest_mutual_information-1])
+          features_mutual_information_label['mutual information'].iloc[n_highest_mutual_information-1])
 
     if n_highest_mutual_information > 0:
-        # Take the genes with more mutual information than the threshold
-        selected_genes = genes_mutual_information_label[:n_highest_mutual_information]
+        # Take the featuress with more mutual information than the threshold
+        selected_features = features_mutual_information_label[:n_highest_mutual_information]
     else:
-        selected_genes = genes_mutual_information_label
+        selected_features = features_mutual_information_label
 
-    print()
     # List of indices of the rows that are to be taken from the data file and correspond to the selected features
     list_variables = sorted(
-        list(selected_genes["index feature"].apply(lambda x: x+1)))
+        list(selected_features["index feature"].apply(lambda x: x+1)))
 
     r2_train = np.zeros((1, number_sweeps))
     r2_test = np.zeros((1, number_sweeps))
@@ -63,15 +62,15 @@ def validate_feature_selection(path_original_data, path_labels="dbscan_labels.cs
                     non_constant_metrics.append(i)
                 else:
                     constant_metrics.append(i)
-        if gene_selection == 1:
+        if feature_selection == 1:
             list_variables = sorted(random.sample(non_constant_metrics,
                                                   len(list_variables)))
-        if gene_selection == 2:
+        if feature_selection == 2:
             # Train on the total number of non-constant metrics
             list_variables = sorted(non_constant_metrics)
         len_list_variables = len(list_variables)
         if sweep <= 0:
-            print("Number selected genes:")
+            print("Number selected features:")
             print(len_list_variables)
 
         print("Sweep #" + str(sweep))
@@ -98,12 +97,12 @@ def validate_feature_selection(path_original_data, path_labels="dbscan_labels.cs
         r2_train[0, sweep] = mlp.score(X_train_scaled, y_train)
 
     print('\n')
-    if gene_selection == 0:
-        print("Results on PFA gene selection:")
-    if gene_selection == 1:
-        print("Results on randomly selected genes:")
-    if gene_selection == 2:
-        print("Results on all non-constant genes:")
+    if feature_selection == 0:
+        print("Results on PFA feature selection:")
+    if feature_selection == 1:
+        print("Results on randomly selected features:")
+    if feature_selection == 2:
+        print("Results on all non-constant features:")
 
     print("r2_test mean: " + str(r2_test.mean()))
     print("r2_train mean: " + str(r2_train.mean()))
