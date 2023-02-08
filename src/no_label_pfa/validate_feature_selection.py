@@ -6,7 +6,12 @@ from sklearn.metrics import accuracy_score
 from sklearn import preprocessing
 import random
 
-
+# Function to calculate the Shannon mutal information of features with the components of the output function
+# path_original_data: string path to the original input file
+# path_labels: string path to the file containing lables for the dataset (e.g. the dbscan output file)
+# path_mutual_information: string path to the file containing the labels and their mutual information
+# n_highest_mutual_information:  number of features with the highest mutual information to select. Default value -1 selects all principal features.
+# number_sweeps: number of sweeps for training
 def validate_feature_selection(path_original_data, path_labels="dbscan_labels.csv", path_mutual_information="mutual_information0.csv", n_highest_mutual_information=-1, number_sweeps=20):
     gene_selection = 0  # validate on PFA = 0, random genes = 1 or all genes = 2
 
