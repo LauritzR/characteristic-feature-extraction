@@ -16,8 +16,12 @@ if __name__ == "__main__":
   
   dbscan("umap_output.csv", eps=1, min_samples=15)
   
+  compare_dbscan_labels("comparison_labels.csv")
+  
   find_cluster_differences(path_original_data=path_original_data,clusters=[0,1])
   
   get_mutual_information(path_original_data)
+  
+  validate_feature_selection(path_original_data)
 
 ```
