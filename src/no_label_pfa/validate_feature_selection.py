@@ -14,12 +14,18 @@ import random
 # n_highest_mutual_information:  number of features with the highest mutual information to select. Default value -1 selects all principal features.
 # number_sweeps: number of sweeps for training
 # feature_selection: PFA = 0, random features = 1 or all features = 2
-def validate_feature_selection(path_original_data, path_labels="dbscan_labels.csv", path_mutual_information="mutual_information0.csv", n_highest_mutual_information=-1, number_sweeps=20, feature_selection=0):
+# clusters: list of clusters to be considered in the calculation. If empty, all clusters are considered
+def validate_feature_selection(path_original_data, path_labels="dbscan_labels.csv", path_mutual_information="mutual_information0.csv", n_highest_mutual_information=-1, number_sweeps=20, feature_selection=0, clusters=[]):
     data = pd.read_csv(path_original_data, sep=",", header=None).transpose()
 
     clustering = pd.read_csv(path_labels, sep=',', header=None).to_numpy()
 
     data_total = pd.DataFrame(np.c_[clustering, data])
+
+    if len(clusters) > 0:
+        drop = [i for i in range(len(data.iloc[0]))
+                if data.iloc[0][i] not in clusters]
+        data.drop(columns=drop, inplace=True)
 
     data = data_total.sample(frac=0.8)
     data_test = data_total.drop(data.index)
