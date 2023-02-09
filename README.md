@@ -22,6 +22,6 @@ if __name__ == "__main__":
   
   get_mutual_information(path_original_data)
   
-  validate_feature_selection(path_original_data)
+  validate_feature_selection(path_original_data,clusters=[0,1])
 
 ```
