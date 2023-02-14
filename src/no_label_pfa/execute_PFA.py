@@ -18,12 +18,11 @@ from configparser import ConfigParser
 # min_n_datapoints_a_bin: minimum number of data points for each bin in the chi-square test
 # shuffle_feature_numbers: if True the number of the features is randomly shuffled
 # frac: the fraction of the dataset that is used for the analysis. The set is randomly sampled from the input csv
-# calculate_mutual_information: if True the mutual information with features from the PFA with the components of the output function is calculated
 # basis_log_mutual_information: basis of the logarithm used in the calculation of the mutual information
 # parallel: if True the parallelized version of the PFA is used
 
 
-def pfa(path, number_sweeps=1, cluster_size=50, alpha=0.01, min_n_datapoints_a_bin=500, shuffle_feature_numbers=0, frac=1, calculate_mutual_information=0, basis_log_mutual_information=2, parallel=False):
+def pfa(path, number_sweeps=1, cluster_size=50, alpha=0.01, min_n_datapoints_a_bin=500, shuffle_feature_numbers=0, frac=1, basis_log_mutual_information=2, parallel=False):
 
     config = ConfigParser()
 
