@@ -12,18 +12,25 @@ def compare_dbscan_labels(path_comparison_labels, path_dbscan_labels="dbscan_lab
                              header=None).to_numpy().flatten()
 
     cluster_bins = []
+
     for l in np.unique(clustering):
-        tmp = [comparison_labels[i]
-               for i in range(len(clustering)) if clustering[i] == l]
+        tmp = [int(l)]
+        for cl in np.unique(comparison_labels):
+            count = 0
+            for i in range(len(comparison_labels)):
+                if clustering[i] == l and comparison_labels[i] == cl:
+                    count += 1
+            tmp.append(count)
+
         cluster_bins.append(tmp)
 
-    plt.ylabel("Count", fontsize=12)
-    plt.xlabel("DBSCAN Label", fontsize=12)
+    columns = ['DBSCAN Label']
 
-    plt.xticks(range(len(np.unique(clustering))))
+    for cl in np.unique(comparison_labels):
+        columns.append(str(cl))
 
-    n, bins, patches = plt.hist(
-        cluster_bins, histtype='barstacked', label=np.unique(comparison_labels))
+    df = pd.DataFrame(cluster_bins, columns=columns)
 
-    plt.legend(title="Comparison labels", fancybox=True)
+    df.plot(x='DBSCAN Label', kind='bar', stacked=True)
+    plt.legend(title="Comparison Label", fancybox=True)
     plt.show()
