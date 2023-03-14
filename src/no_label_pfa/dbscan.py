@@ -23,9 +23,11 @@ def dbscan(path_embedding, eps=2, min_samples=15, plot=True):
         print("Label {}: {}".format(v, c))
 
     if plot:
+        plt.figure(figsize=(10,6))
         for i in np.unique(clustering):
             mask = clustering == i
             plt.scatter(X[mask, 0], X[mask, 1],  label=i)
 
-        plt.legend()
+        plt.legend(fancybox=True, bbox_to_anchor=(1.05, 1.0), loc='upper left')
+        plt.tight_layout()
         plt.show()
