@@ -20,7 +20,7 @@ if __name__ == "__main__":
   
   find_cluster_differences(path_original_data=path_original_data,clusters=[0,1])
   
-  get_mutual_information(path_original_data)
+  get_mutual_information(path_original_data, clusters=[0,1])
   
   validate_feature_selection(path_original_data,clusters=[0,1])
 
