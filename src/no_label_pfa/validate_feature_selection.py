@@ -23,9 +23,9 @@ def validate_feature_selection(path_original_data, path_labels="dbscan_labels.cs
     data_total = pd.DataFrame(np.c_[clustering, data])
 
     if len(clusters) > 0:
-        drop = [i for i in range(len(data.iloc[0]))
-                if data.iloc[0][i] not in clusters]
-        data.drop(columns=drop, inplace=True)
+        drop = [i for i in range(len(data_total.iloc[0]))
+                if data_total.iloc[0][i] not in clusters]
+        data_total.drop(columns=drop, inplace=True)
 
     data = data_total.sample(frac=0.8)
     data_test = data_total.drop(data.index)
