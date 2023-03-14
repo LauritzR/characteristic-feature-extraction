@@ -12,7 +12,7 @@ from configparser import ConfigParser
 # number_output_functions: Number of output features that are to be modeled, i.e. the number of components of the vector-valued output-function. The values are stored in the first number_output_functions rows of the csv-file.
 # basis_log_mutual_information:  the basis for the logarithm used to calculate the mutual information.
 
-def get_mutual_information(path_original_data, path_principal_features_cluster_differences="principal_features_cluster_differences.txt", path_labels="dbscan_labels.csv", number_output_functions=1, basis_log_mutual_information=2):
+def get_mutual_information(path_original_data, path_principal_features_cluster_differences="principal_features_cluster_differences.txt", path_labels="dbscan_labels.csv", clusters=[], number_output_functions=1, basis_log_mutual_information=2):
 
     with open(path_principal_features_cluster_differences) as f:
         pfs = f.readlines()
@@ -26,6 +26,11 @@ def get_mutual_information(path_original_data, path_principal_features_cluster_d
     data = pd.read_csv(path_original_data, sep=',', header=None)
     clustering = pd.read_csv(path_labels, sep=',', header=None).to_numpy()
     data = pd.DataFrame(np.c_[clustering, data.T].T)
+    
+    if len(clusters) > 0:
+        drop = [i for i in range(len(data.iloc[0]))
+                if data.iloc[0][i] not in clusters]
+        data.drop(columns=drop, inplace=True)
 
     # Calulate the Shannon mutual information
     def make_summand_from_frequencies(x, y):
