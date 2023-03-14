@@ -35,6 +35,7 @@ def compare_dbscan_labels(path_comparison_labels, path_dbscan_labels="dbscan_lab
 
     df = pd.DataFrame(cluster_bins, columns=columns)
 
-    df.plot(x='DBSCAN Label', kind='bar', stacked=True)
-    plt.legend(title="Comparison Label", fancybox=True)
+    df.plot(x='DBSCAN Label', kind='bar', stacked=True, figsize=(10,6))
+    plt.legend(title="Comparison Label", fancybox=True, bbox_to_anchor=(1.05, 1.0), loc='upper left')
+    plt.tight_layout()
     plt.show()
