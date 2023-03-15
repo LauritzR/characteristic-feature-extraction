@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 # random_state: seed used by random number generator
 # plot: flag for visual output
 
-def umap(path_original_data, path_principal_features="principal_features0.txt", n_components=2, init='random', random_state=0, plot=True):
+def umap(path_original_data, path_principal_features="principal_features0.txt", n_components=2, n_neighbors=15, init='random', random_state=0, plot=True):
 
     with open(path_principal_features) as f:
         pfs = f.readlines()
@@ -22,7 +22,7 @@ def umap(path_original_data, path_principal_features="principal_features0.txt", 
     X_pf = X.T[pfs]
 
     X_embedded = UMAP(n_components=n_components, init=init,
-                      random_state=random_state).fit_transform(X_pf).T
+                      random_state=random_state, n_neighbors=n_neighbors).fit_transform(X_pf).T
 
     np.savetxt("umap_output.csv", X_embedded, delimiter=",")
 
