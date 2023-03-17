@@ -6,7 +6,8 @@ import matplotlib.pyplot as plt
 # path_comparison_labels: string path to the file containing labels to compare
 # path_dbscan_labels: string path to the file containing the labels found by dbscan, optional
 # clusters: list of dbscan clusters to be considered in the calculation. If empty, all clusters are considered
-def compare_dbscan_labels(path_comparison_labels, path_dbscan_labels="dbscan_labels.csv", clusters=[]):
+# cmap: colormap used for plotting
+def compare_dbscan_labels(path_comparison_labels, path_dbscan_labels="dbscan_labels.csv", clusters=[], cmap=None):
     comparison_labels = pd.read_csv(
         path_comparison_labels, sep=',', header=None).to_numpy().flatten()
     clustering = pd.read_csv(path_dbscan_labels, sep=',',
@@ -35,7 +36,7 @@ def compare_dbscan_labels(path_comparison_labels, path_dbscan_labels="dbscan_lab
 
     df = pd.DataFrame(cluster_bins, columns=columns)
 
-    df.plot(x='DBSCAN Label', kind='bar', stacked=True, figsize=(10,6))
+    df.plot(x='DBSCAN Label', kind='bar', stacked=True, figsize=(10,6), colormap=cmap)
     plt.legend(title="Comparison Label", fancybox=True, bbox_to_anchor=(1.05, 1.0), loc='upper left')
     plt.tight_layout()
     plt.show()
