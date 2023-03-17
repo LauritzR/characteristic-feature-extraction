@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 # path_original_data: string path to the original input file
 # path_principal_features: string path to the txt file containing the principal features
 # n_components: number of components in the embedding output
+# n_neighbors: balance between local and global structures. The higher the value the bigger the neighborhoods considered for each point.
 # init: initialization of embedding. Default 'random'
 # random_state: seed used by random number generator
 # plot: flag for visual output
