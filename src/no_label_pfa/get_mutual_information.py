@@ -9,6 +9,7 @@ from configparser import ConfigParser
 # path_original_data: string path to the original input file
 # path_principal_features_cluster_differences: string path to the txt file containing the principal features detected by find_cluster_differences
 # path_labels: string path to the file containing lables for the dataset (e.g. the dbscan output file)
+# clusters: list of clusters to be considered in the calculation. If empty, all clusters are considered
 # number_output_functions: Number of output features that are to be modeled, i.e. the number of components of the vector-valued output-function. The values are stored in the first number_output_functions rows of the csv-file.
 # basis_log_mutual_information:  the basis for the logarithm used to calculate the mutual information.
 
