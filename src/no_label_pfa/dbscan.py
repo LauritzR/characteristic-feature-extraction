@@ -8,8 +8,9 @@ import matplotlib.pyplot as plt
 # eps: maximum distance between two samples for them to be considered neighbours
 # min_samples: number of samples in a neighborhood for a point to be considered as a core point
 # plot: flag for visual output
+# cmap: colormap used for plotting
 
-def dbscan(path_embedding, eps=2, min_samples=15, plot=True):
+def dbscan(path_embedding, eps=2, min_samples=15, plot=True, cmap=None):
 
     X = pd.read_csv(path_embedding, sep=',', header=None).to_numpy().T
 
@@ -24,10 +25,8 @@ def dbscan(path_embedding, eps=2, min_samples=15, plot=True):
 
     if plot:
         plt.figure(figsize=(10,6))
-        for i in np.unique(clustering):
-            mask = clustering == i
-            plt.scatter(X[mask, 0], X[mask, 1],  label=i)
+        scatter = plt.scatter(X[0], X[1], cmap=cmap, c=clustering)
 
-        plt.legend(fancybox=True, bbox_to_anchor=(1.05, 1.0), loc='upper left')
+        plt.legend(*scatter.legend_elements(), fancybox=True, bbox_to_anchor=(1.05, 1.0), loc='upper left')
         plt.tight_layout()
         plt.show()
