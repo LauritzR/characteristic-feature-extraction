@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 # eps: maximum distance between two samples for them to be considered neighbours
 # min_samples: number of samples in a neighborhood for a point to be considered as a core point
 # plot: flag for visual output
-# cmap: colormap used for plotting
+# cmap: colormap used for plotting (default is 'viridis', other examples are 'PiYG', 'twilight' or 'tab20'. For more details check the matplotlib colomap documentation)
 
 def dbscan(path_embedding, eps=2, min_samples=15, plot=True, cmap=None):
 
