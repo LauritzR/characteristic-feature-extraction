@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 # path_comparison_labels: string path to the file containing labels to compare
 # path_dbscan_labels: string path to the file containing the labels found by dbscan, optional
 # clusters: list of dbscan clusters to be considered in the calculation. If empty, all clusters are considered
-# cmap: colormap used for plotting
+# cmap: colormap used for plotting (default is 'viridis', other examples are 'PiYG', 'twilight' or 'tab20'. For more details check the matplotlib colomap documentation)
 def compare_dbscan_labels(path_comparison_labels, path_dbscan_labels="dbscan_labels.csv", clusters=[], cmap=None):
     comparison_labels = pd.read_csv(
         path_comparison_labels, sep=',', header=None).to_numpy().flatten()
