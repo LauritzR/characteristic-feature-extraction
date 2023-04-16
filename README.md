@@ -6,6 +6,7 @@ from src.no_label_pfa.umap import umap
 from src.no_label_pfa.dbscan import dbscan
 from src.no_label_pfa.hdbscan import hdbscan
 from src.no_label_pfa.find_cluster_differences import find_cluster_differences
+from src.no_label_pfa.compare_dbscan_labels import compare_dbscan_labels
 from src.no_label_pfa.get_mutual_information import get_mutual_information
 from src.no_label_pfa.validate_feature_selection import validate_feature_selection
 
