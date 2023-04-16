@@ -12,9 +12,9 @@ import matplotlib.pyplot as plt
 
 def dbscan(path_embedding, eps=2, min_samples=15, plot=True, cmap=None):
 
-    X = pd.read_csv(path_embedding, sep=',', header=None).to_numpy().T
+    X = pd.read_csv(path_embedding, sep=',', header=None).to_numpy()
 
-    clustering = DBSCAN(eps=eps, min_samples=min_samples).fit_predict(X)
+    clustering = DBSCAN(eps=eps, min_samples=min_samples).fit_predict(X.T)
 
     np.savetxt("dbscan_labels.csv", clustering, delimiter=",")
 
