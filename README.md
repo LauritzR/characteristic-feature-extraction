@@ -15,7 +15,7 @@ if __name__ == "__main__":
   
   pfa(path=path_original_data)
   
-  umap(path_original_data=path_original_data)
+  umap(path_original_data=path_original_data, n_neighbors=15)
   
   dbscan("umap_output.csv", eps=1, min_samples=15)
   # or optionally:
