@@ -9,6 +9,8 @@ from src.no_label_pfa.find_cluster_differences import find_cluster_differences
 from src.no_label_pfa.compare_dbscan_labels import compare_dbscan_labels
 from src.no_label_pfa.get_mutual_information import get_mutual_information
 from src.no_label_pfa.validate_feature_selection import validate_feature_selection
+from src.no_label_pfa.shaply_explanation import shaply_explanation
+from src.no_label_pfa.tree_explanation import tree_explanation
 
 if __name__ == "__main__":
   path_original_data="path/to/my/no_label_file.csv"
@@ -28,5 +30,9 @@ if __name__ == "__main__":
   get_mutual_information(path_original_data,clusters=[0,1])
   
   validate_feature_selection(path_original_data,clusters=[0,1])
+
+  feature_explanation(path_nl, n_highest_mutual_information=10)
+  # or
+  explain_tree(path_nl, n_highest_mutual_information=10, min_samples_leaf=50)
 
 ```

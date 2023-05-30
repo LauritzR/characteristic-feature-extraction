@@ -9,15 +9,21 @@ from configparser import ConfigParser
 # path_original_data: string path to the original input file
 # path_principal_features_cluster_differences: string path to the txt file containing the principal features detected by find_cluster_differences
 # path_labels: string path to the file containing lables for the dataset (e.g. the dbscan output file)
+# path_feature_names: path to csv containing the names of the features. The column containing the names must be named 'feature name'
 # clusters: list of clusters to be considered in the calculation. If empty, all clusters are considered
 # number_output_functions: Number of output features that are to be modeled, i.e. the number of components of the vector-valued output-function. The values are stored in the first number_output_functions rows of the csv-file.
 # basis_log_mutual_information:  the basis for the logarithm used to calculate the mutual information.
 
-def get_mutual_information(path_original_data, path_principal_features_cluster_differences="principal_features_cluster_differences.txt", path_labels="dbscan_labels.csv", clusters=[], number_output_functions=1, basis_log_mutual_information=2):
+def get_mutual_information(path_original_data, path_principal_features_cluster_differences="principal_features_cluster_differences.txt", path_labels="dbscan_labels.csv", path_feature_names="",clusters=[], number_output_functions=1, basis_log_mutual_information=2):
 
     with open(path_principal_features_cluster_differences) as f:
         pfs = f.readlines()
     list_variables = [int(x[:len(x)-2])+number_output_functions for x in pfs]
+
+    try:
+        feature_names = pd.read_csv(path_feature_names, sep=',', header=0)['feature name'].to_numpy()[list_variables]
+    except:
+        feature_names = [str(e) for e in list_variables]
 
     config = ConfigParser()
     config.read("config.ini")
@@ -27,7 +33,8 @@ def get_mutual_information(path_original_data, path_principal_features_cluster_d
     data = pd.read_csv(path_original_data, sep=',', header=None)
     clustering = pd.read_csv(path_labels, sep=',', header=None).to_numpy()
     data = pd.DataFrame(np.c_[clustering, data.T].T)
-    
+
+
     if len(clusters) > 0:
         drop = [i for i in range(len(data.iloc[0]))
                 if data.iloc[0][i] not in clusters]
@@ -44,8 +51,14 @@ def get_mutual_information(path_original_data, path_principal_features_cluster_d
     for i in range(0, number_output_functions):
         list_variables.insert(i, i)
 
+        print(feature_names)
+        feature_names = np.insert(feature_names, i, "Label {}".format(i))
+        print(feature_names)
+
     data_init = data.to_numpy()
     data = data_init[list_variables, :]
+
+
     m = data.shape[0]
     n = data.shape[1]
     l = [0 for i in range(0, m)]
@@ -112,7 +125,7 @@ def get_mutual_information(path_original_data, path_principal_features_cluster_d
         list_of_features = list(
             range(number_output_functions, len(left_features)))
         list_of_features.insert(0, i)
-        id_features = np.array(list_variables)[list_of_features]
+        id_features = np.array(list_variables)[left_features]
         id_features = [x-number_output_functions for x in id_features]
 
         for j in list_of_features:
@@ -127,7 +140,7 @@ def get_mutual_information(path_original_data, path_principal_features_cluster_d
                 mutual_info[0, j-number_output_functions+1] = np.sum(np.array(list(map(
                     make_summand_from_frequencies, freq_data_product.flatten().tolist(), expfreq.flatten().tolist()))))
         pd_mutual_information = pd.DataFrame(
-            {"index feature": id_features, "mutual information": mutual_info.tolist()[0]})
+            {"index feature": id_features, "mutual information": mutual_info.tolist()[0], "feature name": feature_names})
         pd_mutual_information['index feature'] = pd_mutual_information['index feature'].astype(
             int)
         list_of_data_frames.append(pd_mutual_information)
