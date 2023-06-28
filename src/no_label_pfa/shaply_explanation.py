@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 from sklearn.neural_network import MLPClassifier
-from sklearn.metrics import confusion_matrix
+from sklearn.metrics import confusion_matrix, balanced_accuracy_score
 from sklearn import preprocessing
 import random
 import shap
@@ -82,6 +82,11 @@ def shaply_explanation(path_original_data, path_labels="dbscan_labels.csv", path
     print(mlp.score(X_test_scaled, y_test))
     print('r2-accuracy on training set:')
     print(mlp.score(X_train_scaled, y_train))
+    print('balanced accuracy on test set:')
+    print(balanced_accuracy_score(y_test, y_pred))
+    print('balanced accuracy on training set:')
+    print(balanced_accuracy_score(y_train, mlp.predict(X_train)))
+
     cm_mlp = confusion_matrix(y_test, y_pred)
     print('confusion matrix on test set:')
     print(cm_mlp)

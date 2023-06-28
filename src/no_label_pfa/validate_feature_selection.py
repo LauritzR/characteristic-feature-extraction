@@ -1,8 +1,7 @@
 import pandas as pd
 import numpy as np
 from sklearn.neural_network import MLPClassifier
-from sklearn.metrics import confusion_matrix
-from sklearn.metrics import accuracy_score
+from sklearn.metrics import accuracy_score, balanced_accuracy_score, confusion_matrix
 from sklearn import preprocessing
 import random
 
@@ -57,7 +56,10 @@ def validate_feature_selection(path_original_data, path_labels="dbscan_labels.cs
 
     r2_train = np.zeros((1, number_sweeps))
     r2_test = np.zeros((1, number_sweeps))
+    balanced_train = np.zeros((1, number_sweeps))
+    balanced_test = np.zeros((1, number_sweeps))
     number_wrongly_classified = np.zeros((1, number_sweeps))
+    cm_mlp = []
 
     for sweep in range(0, number_sweeps):
         if sweep <= 0:
@@ -96,11 +98,21 @@ def validate_feature_selection(path_original_data, path_labels="dbscan_labels.cs
         print(mlp.score(X_test_scaled, y_test))
         print('r2-accuracy on training set:')
         print(mlp.score(X_train_scaled, y_train))
-        cm_mlp = confusion_matrix(y_test, y_pred)
+        print('balanced accuracy on test set:')
+        print(balanced_accuracy_score(y_test, y_pred))
+        print('balanced accuracy on training set:')
+        print(balanced_accuracy_score(y_train, mlp.predict(X_train)))
+
+        if not sweep:
+            cm_mlp = confusion_matrix(y_test, y_pred)
+        else:
+            cm_mlp += confusion_matrix(y_test, y_pred)
 
         r2_test[0, sweep] = accuracy_score(y_test, y_pred)
-        number_wrongly_classified[0, sweep] = cm_mlp[1, 0]+cm_mlp[0, 1]
         r2_train[0, sweep] = mlp.score(X_train_scaled, y_train)
+
+        balanced_test[0, sweep] = balanced_accuracy_score(y_test, y_pred)
+        balanced_train[0, sweep] = balanced_accuracy_score(y_train, mlp.predict(X_train))
 
     print('\n')
     if feature_selection == 0:
@@ -114,5 +126,5 @@ def validate_feature_selection(path_original_data, path_labels="dbscan_labels.cs
     print("r2_train mean: " + str(r2_train.mean()))
     print("r2_test std: " + str(r2_test.std()))
     print("max r2_test: " + str(max(r2_test[0, :])))
-    print("Wrongly classified mean: " + str(number_wrongly_classified.mean()))
-    print("Wrongly classified std: " + str(number_wrongly_classified.std()))
+    print("confusion matrix:")
+    print(cm_mlp/number_sweeps)

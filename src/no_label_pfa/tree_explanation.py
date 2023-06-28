@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 from sklearn.tree import DecisionTreeClassifier, plot_tree
-from sklearn.metrics import confusion_matrix
+from sklearn.metrics import confusion_matrix, balanced_accuracy_score
 from sklearn import preprocessing
 import matplotlib.pyplot as plt
 import random
@@ -85,6 +85,11 @@ def tree_explanation(path_original_data, path_labels="dbscan_labels.csv", path_m
     print(clf.score(X_test_scaled, y_test))
     print('r2-accuracy on training set:')
     print(clf.score(X_train_scaled, y_train))
+    print('balanced accuracy on test set:')
+    print(balanced_accuracy_score(y_test, y_pred))
+    print('balanced accuracy on training set:')
+    print(balanced_accuracy_score(y_train, clf.predict(X_train)))
+
     cm_clf = confusion_matrix(y_test, y_pred)
     print('confusion matrix on test set:')
     print(cm_clf)
