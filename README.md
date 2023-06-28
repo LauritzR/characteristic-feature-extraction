@@ -31,8 +31,8 @@ if __name__ == "__main__":
   
   validate_feature_selection(path_original_data,clusters=[0,1])
 
-  feature_explanation(path_nl, n_highest_mutual_information=10)
+  shaply_explanation(path_original_data, n_highest_mutual_information=10)
   # or
-  explain_tree(path_nl, n_highest_mutual_information=10, min_samples_leaf=50)
+  tree_explanation(path_original_data, n_highest_mutual_information=10, min_samples_leaf=50)
 
 ```
