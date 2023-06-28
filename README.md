@@ -7,6 +7,7 @@ from src.no_label_pfa.dbscan import dbscan
 from src.no_label_pfa.hdbscan import hdbscan
 from src.no_label_pfa.find_cluster_differences import find_cluster_differences
 from src.no_label_pfa.compare_dbscan_labels import compare_dbscan_labels
+from src.no_label_pfa.split_data import split_data
 from src.no_label_pfa.get_mutual_information import get_mutual_information
 from src.no_label_pfa.validate_feature_selection import validate_feature_selection
 from src.no_label_pfa.shaply_explanation import shaply_explanation
@@ -28,7 +29,10 @@ if __name__ == "__main__":
   find_cluster_differences(path_original_data=path_original_data,clusters=[0,1])
   
   get_mutual_information(path_original_data,clusters=[0,1])
-  
+
+  # optional:
+  split_data(path_original_data, n_splits=5)
+
   validate_feature_selection(path_original_data,clusters=[0,1])
 
   shaply_explanation(path_original_data, n_highest_mutual_information=10)
