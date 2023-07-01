@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 
-# Function to calculate the Shannon mutal information of features with the components of the output function
+# Function to split a data set into several sub data sets to check results for senesitivity of the data set
 # path_original_data: string path to the original input file
 # n_splits: number of splits/output files to generate
 # path_labels: string path to the file containing lables for the dataset (e.g. the dbscan output file)
