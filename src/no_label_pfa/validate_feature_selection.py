@@ -103,10 +103,8 @@ def validate_feature_selection(path_original_data, path_labels="dbscan_labels.cs
         print('balanced accuracy on training set:')
         print(balanced_accuracy_score(y_train, mlp.predict(X_train)))
 
-        if not sweep:
-            cm_mlp = confusion_matrix(y_test, y_pred)
-        else:
-            cm_mlp += confusion_matrix(y_test, y_pred)
+       
+        cm_mlp.append(confusion_matrix(y_test, y_pred)
 
         r2_test[0, sweep] = accuracy_score(y_test, y_pred)
         r2_train[0, sweep] = mlp.score(X_train_scaled, y_train)
@@ -126,5 +124,13 @@ def validate_feature_selection(path_original_data, path_labels="dbscan_labels.cs
     print("r2_train mean: " + str(r2_train.mean()))
     print("r2_test std: " + str(r2_test.std()))
     print("max r2_test: " + str(max(r2_test[0, :])))
-    print("confusion matrix:")
-    print(cm_mlp/number_sweeps)
+
+    print("balanced_test mean: " + str(balanced_test.mean()))
+    print("balanced_train mean: " + str(balanced_train.mean()))
+    print("balanced_test std: " + str(balanced_test.std()))
+    print("max balanced_test: " + str(max(balanced_test[0, :])))
+    
+    print("confusion matrix mean:")
+    print(np.mean(cm_mlp, axis=0))
+    print("confusion matrix std:")
+    print(np.std(cm_mlp, axis=0))
