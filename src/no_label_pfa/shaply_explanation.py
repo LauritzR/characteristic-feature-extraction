@@ -6,7 +6,7 @@ from sklearn import preprocessing
 import random
 import shap
 
-# Function to calculate the Shannon mutal information of features with the components of the output function
+# Function to identify the relations between the label and the identified features via a shap explainer
 # path_original_data: string path to the original input file
 # path_labels: string path to the file containing lables for the dataset (e.g. the dbscan output file)
 # path_mutual_information: string path to the file containing the labels and their mutual information
