@@ -6,7 +6,7 @@ from sklearn import preprocessing
 import random
 
 
-# Function to calculate the Shannon mutal information of features with the components of the output function
+# Function to validate the feature selection with respect to their information to predict the label
 # path_original_data: string path to the original input file
 # path_labels: string path to the file containing lables for the dataset (e.g. the dbscan output file)
 # path_mutual_information: string path to the file containing the labels and their mutual information
