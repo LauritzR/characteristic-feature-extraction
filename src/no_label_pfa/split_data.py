@@ -7,7 +7,6 @@ import pandas as pd
 # path_labels: string path to the file containing lables for the dataset (e.g. the dbscan output file)
 # clusters: list of clusters to be considered in the calculation. If empty, all clusters are considered
 # cluster_ratio: ratio between clusters for the splits. Overwrites n_splits
-# number_output_functions: Number of output features that are to be modeled, i.e. the number of components of the vector-valued output-function. The values are stored in the first number_output_functions rows of the csv-file.
 def split_data(path_original_data, n_splits, path_labels="dbscan_labels.csv",clusters=[], cluster_ratio=[]):
 
     data = pd.read_csv(path_original_data, sep=',', header=None).to_numpy().T
