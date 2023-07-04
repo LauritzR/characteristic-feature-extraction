@@ -54,6 +54,7 @@ def find_relevant_principal_features(data,number_output_functions,cluster_size,a
     print("Binning done!")
     print("List of features with constant values:")
     print(constant_features)
+    print("Number of constant features")
     print(len(constant_features))
     
 
