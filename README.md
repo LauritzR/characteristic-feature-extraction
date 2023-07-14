@@ -25,13 +25,13 @@ if __name__ == "__main__":
   hdbscan("umap_output.csv", min_cluster_size=15, plot=False)
   
   compare_dbscan_labels("comparison_labels.csv")
+
+  # optional:
+  split_data(path_original_data, n_splits=5)
   
   find_cluster_differences(path_original_data=path_original_data,clusters=[0,1])
   
   get_mutual_information(path_original_data,clusters=[0,1])
-
-  # optional:
-  split_data(path_original_data, n_splits=5)
 
   validate_feature_selection(path_original_data,clusters=[0,1])
 
