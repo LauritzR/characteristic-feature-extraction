@@ -94,5 +94,5 @@ def shaply_explanation(path_original_data, path_labels="dbscan_labels.csv", path
     explainer = shap.KernelExplainer(mlp.predict_proba, X_test)
     shap_values = explainer.shap_values(X_test)
 
-    for i in np.unique(y_test):
-        shap.summary_plot(shap_values[int(i)], X_test, feature_names=selected_features['feature name'].to_numpy())
+    for s in  shap_values:
+        shap.summary_plot(s, X_test, feature_names=selected_features['feature name'].to_numpy())
