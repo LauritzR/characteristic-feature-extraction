@@ -101,7 +101,7 @@ def validate_feature_selection(path_original_data, path_labels="dbscan_labels.cs
         print('balanced accuracy on test set:')
         print(balanced_accuracy_score(y_test, y_pred))
         print('balanced accuracy on training set:')
-        print(balanced_accuracy_score(y_train, mlp.predict(X_train)))
+        print(balanced_accuracy_score(y_train, mlp.predict(X_train_scaled)))
 
        
         cm_mlp.append(confusion_matrix(y_test, y_pred))
@@ -110,7 +110,7 @@ def validate_feature_selection(path_original_data, path_labels="dbscan_labels.cs
         r2_train[0, sweep] = mlp.score(X_train_scaled, y_train)
 
         balanced_test[0, sweep] = balanced_accuracy_score(y_test, y_pred)
-        balanced_train[0, sweep] = balanced_accuracy_score(y_train, mlp.predict(X_train))
+        balanced_train[0, sweep] = balanced_accuracy_score(y_train, mlp.predict(X_train_scaled))
 
     print('\n')
     if feature_selection == 0:
