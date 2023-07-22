@@ -88,7 +88,7 @@ def tree_explanation(path_original_data, path_labels="dbscan_labels.csv", path_m
     print('balanced accuracy on test set:')
     print(balanced_accuracy_score(y_test, y_pred))
     print('balanced accuracy on training set:')
-    print(balanced_accuracy_score(y_train, clf.predict(X_train)))
+    print(balanced_accuracy_score(y_train, clf.predict(X_train_scaled)))
 
     cm_clf = confusion_matrix(y_test, y_pred)
     print('confusion matrix on test set:')
