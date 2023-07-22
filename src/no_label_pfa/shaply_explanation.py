@@ -85,14 +85,14 @@ def shaply_explanation(path_original_data, path_labels="dbscan_labels.csv", path
     print('balanced accuracy on test set:')
     print(balanced_accuracy_score(y_test, y_pred))
     print('balanced accuracy on training set:')
-    print(balanced_accuracy_score(y_train, mlp.predict(X_train)))
+    print(balanced_accuracy_score(y_train, mlp.predict(X_train_scaled)))
 
     cm_mlp = confusion_matrix(y_test, y_pred)
     print('confusion matrix on test set:')
     print(cm_mlp)
 
-    explainer = shap.KernelExplainer(mlp.predict_proba, X_test)
-    shap_values = explainer.shap_values(X_test)
+    explainer = shap.KernelExplainer(mlp.predict_proba, X_train_scaled)
+    shap_values = explainer.shap_values(X_train_scaled)
 
     for s in  shap_values:
-        shap.summary_plot(s, X_test, feature_names=selected_features['feature name'].to_numpy())
+        shap.summary_plot(s, X_train_scaled, feature_names=selected_features['feature name'].to_numpy())
