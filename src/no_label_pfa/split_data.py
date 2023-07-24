@@ -6,7 +6,7 @@ import pandas as pd
 # n_splits: number of splits/output files to generate
 # path_labels: string path to the file containing lables for the dataset (e.g. the dbscan output file)
 # clusters: list of clusters to be considered in the calculation. If empty, all clusters are considered
-# number_per_cluster: number of samples per cluster in each splitted file. Overwrites n_splits
+# number_per_cluster: number of samples per cluster in each splitted file
 def split_data(path_original_data, n_splits, path_labels="dbscan_labels.csv",clusters=[], number_per_cluster=[]):
 
     data = pd.read_csv(path_original_data, sep=',', header=None).to_numpy().T
@@ -20,14 +20,13 @@ def split_data(path_original_data, n_splits, path_labels="dbscan_labels.csv",clu
                 if data.iloc[0][i] not in clusters]
         data.drop(columns=drop, inplace=True)
     else:
-        clusters = np.unique(data.T[0])
+        clusters = np.unique(clustering)
     
     _, counts = np.unique(data.T[0], return_counts=True)
 
     split_size = np.ceil((len(data.T)/n_splits)/len(clusters))
-    if len(number_per_cluster):
-        n_splits = int(np.ceil(len(data.T)/np.sum(number_per_cluster)))
-    else:
+
+    if not len(number_per_cluster):
         number_per_cluster = [int(split_size) for i in range(len(clusters))]
 
     for i in range(n_splits):
@@ -44,9 +43,3 @@ def split_data(path_original_data, n_splits, path_labels="dbscan_labels.csv",clu
         split = np.array(split)        
         np.savetxt("split_"+str(i)+"_y.csv", split.T[0], delimiter=",")
         np.savetxt("split_"+str(i)+".csv", split.T[1:], delimiter=",")
-
-        
-
-
-            
-
