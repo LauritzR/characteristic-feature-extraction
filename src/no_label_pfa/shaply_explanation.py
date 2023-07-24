@@ -22,8 +22,11 @@ def shaply_explanation(path_original_data, path_labels="dbscan_labels.csv", path
     data_total = pd.DataFrame(np.c_[clustering, data])
 
     if len(clusters) > 0:
+        clusters = sorted(clusters)
         drop = [i for i in range(len(data_total)) if data_total.loc[i][0] not in clusters]
         data_total = data_total.drop(drop)
+    else:
+        clusters = np.unique(clustering)
 
     data = data_total.sample(frac=0.8)
     data_test = data_total.drop(data.index)
@@ -94,5 +97,8 @@ def shaply_explanation(path_original_data, path_labels="dbscan_labels.csv", path
     explainer = shap.KernelExplainer(mlp.predict_proba, X_train_scaled)
     shap_values = explainer.shap_values(X_train_scaled)
 
-    for s in  shap_values:
-        shap.summary_plot(s, X_train_scaled, feature_names=selected_features['feature name'].to_numpy())
+    for idx, s in enumerate(shap_values):
+        shap.summary_plot(s, X_test, feature_names=selected_features['feature name'].to_numpy(), show=False)
+        plt.title(int(clusters[idx]))
+        plt.show()
+
