@@ -3,6 +3,7 @@ import numpy as np
 from sklearn.neural_network import MLPClassifier
 from sklearn.metrics import confusion_matrix, balanced_accuracy_score
 from sklearn import preprocessing
+import matplotlib.pyplot as plt
 import random
 import shap
 
@@ -98,7 +99,7 @@ def shaply_explanation(path_original_data, path_labels="dbscan_labels.csv", path
     shap_values = explainer.shap_values(X_train_scaled)
 
     for idx, s in enumerate(shap_values):
-        shap.summary_plot(s, X_test, feature_names=selected_features['feature name'].to_numpy(), show=False)
+        shap.summary_plot(s, X_train_scaled, feature_names=selected_features['feature name'].to_numpy(), show=False)
         plt.title(int(clusters[idx]))
         plt.show()
 
