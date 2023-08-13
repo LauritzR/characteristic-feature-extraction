@@ -1,17 +1,17 @@
 # Example Usage:
 ```Python
-from src.no_label_pfa.execute_PFA import pfa
-from src.no_label_pfa.tsne import tsne
-from src.no_label_pfa.umap import umap
-from src.no_label_pfa.dbscan import dbscan
-from src.no_label_pfa.hdbscan import hdbscan
-from src.no_label_pfa.find_cluster_differences import find_cluster_differences
-from src.no_label_pfa.compare_dbscan_labels import compare_dbscan_labels
-from src.no_label_pfa.split_data import split_data
-from src.no_label_pfa.get_mutual_information import get_mutual_information
-from src.no_label_pfa.validate_feature_selection import validate_feature_selection
-from src.no_label_pfa.shaply_explanation import shaply_explanation
-from src.no_label_pfa.tree_explanation import tree_explanation
+from src.characteristic_feature_extraction.execute_PFA import pfa
+from src.characteristic_feature_extraction.tsne import tsne
+from src.characteristic_feature_extraction.umap import umap
+from src.characteristic_feature_extraction.dbscan import dbscan
+from src.characteristic_feature_extraction.hdbscan import hdbscan
+from src.characteristic_feature_extraction.find_cluster_differences import find_cluster_differences
+from src.characteristic_feature_extraction.compare_dbscan_labels import compare_dbscan_labels
+from src.characteristic_feature_extraction.split_data import split_data
+from src.characteristic_feature_extraction.get_mutual_information import get_mutual_information
+from src.characteristic_feature_extraction.validate_feature_selection import validate_feature_selection
+from src.characteristic_feature_extraction.shaply_explanation import shaply_explanation
+from src.characteristic_feature_extraction.tree_explanation import tree_explanation
 
 if __name__ == "__main__":
   path_original_data="path/to/my/no_label_file.csv"
