@@ -8,19 +8,19 @@ import random
 import shap
 
 # Function to identify the relations between the label and the identified features via a shap explainer
-# path_original_data: string path to the original input file
+# data: Dataframe containing the unlabeled data
 # path_labels: string path to the file containing lables for the dataset (e.g. the dbscan output file)
 # path_mutual_information: string path to the file containing the labels and their mutual information
 # n_highest_mutual_information:  number of features with the highest mutual information to select. Default value -1 selects all principal features.
 # number_sweeps: number of sweeps for training
 # feature_selection: PFA = 0, random features = 1 or all features = 2
 # clusters: list of clusters to be considered in the calculation. If empty, all clusters are considered
-def shaply_explanation(path_original_data, path_labels="dbscan_labels.csv", path_mutual_information="mutual_information0.csv", n_highest_mutual_information=-1, number_sweeps=20, feature_selection=0, clusters=[]):
-    data = pd.read_csv(path_original_data, sep=",", header=None).transpose()
+def shaply_explanation(data, path_labels="dbscan_labels.csv", path_mutual_information="mutual_information0.csv", n_highest_mutual_information=-1, number_sweeps=20, feature_selection=0, clusters=[]):
+   
 
     clustering = pd.read_csv(path_labels, sep=',', header=None).to_numpy()
 
-    data_total = pd.DataFrame(np.c_[clustering, data])
+    data_total = pd.DataFrame(np.c_[clustering, data.T])
 
     if len(clusters) > 0:
         clusters = sorted(clusters)

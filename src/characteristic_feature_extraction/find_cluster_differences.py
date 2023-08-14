@@ -6,21 +6,20 @@ import pandas as pd
 from configparser import ConfigParser
 
 # find_cluster_differences paramters
-# path_original_data: string path to the original input file
+# data: Dataframe containing the unlabeled data
 # path_principal_features: string path to the txt file containing the principal features
 # path_labels: string path to the file containing lables for the dataset (e.g. the dbscan output file)
 # clusters: list of clusters to be considered in the calculation. If empty, all clusters are considered
 # number_output_functions: Number of output features that are to be modeled, i.e. the number of components of the vector-valued output-function. The values are stored in the first number_output_functions rows of the csv-file.
 # frac: the fraction of the dataset that is used for the analysis. The set is randomly sampled from the input csv
 
-def find_cluster_differences(path_original_data, path_principal_features="principal_features0.txt", path_labels="dbscan_labels.csv",  clusters=[], number_output_functions=1, frac=1):
+def find_cluster_differences(data, path_principal_features="principal_features0.txt", path_labels="dbscan_labels.csv",  clusters=[], number_output_functions=1, frac=1):
 
     with open(path_principal_features) as f:
         pfs = f.readlines()
     pfs = [int(x[:len(x)-2]) for x in pfs]
 
-    pf_data = pd.read_csv(path_original_data, sep=',',
-                          header=None).to_numpy()[pfs].T
+    pf_data = data.to_numpy()[pfs].T
     clustering = pd.read_csv(path_labels, sep=',', header=None).to_numpy()
 
     data = pd.DataFrame(np.c_[clustering, pf_data].T)

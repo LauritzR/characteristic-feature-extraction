@@ -9,7 +9,7 @@ from configparser import ConfigParser
 
 
 # paramters for the PFA
-# path: string path to the input file
+# data: Dataframe containing the unlabeled data
 # number_output_functions: Number of output features that are to be modeled, i.e. the number of components of the vector-valued output-function. The values are stored in the first number_output_functions rows of the csv-file.
 # number_sweeps: Number of sweeps of the PFA. The result of the last sweep is returned.
 # In addition, the return of each sweep are interesected and returned as well.
@@ -21,7 +21,7 @@ from configparser import ConfigParser
 # parallel: if True the parallelized version of the PFA is used
 
 
-def pfa(path, number_sweeps=1, cluster_size=50, alpha=0.01, min_n_datapoints_a_bin=500, shuffle_feature_numbers=0, frac=1, parallel=False):
+def pfa(data, number_sweeps=1, cluster_size=50, alpha=0.01, min_n_datapoints_a_bin=500, shuffle_feature_numbers=0, frac=1, parallel=False):
 
     config = ConfigParser()
 
@@ -40,7 +40,6 @@ def pfa(path, number_sweeps=1, cluster_size=50, alpha=0.01, min_n_datapoints_a_b
     # The csv file's content is an m x n Matrix with m - number components of output-function = number features and n = number of data points
     # where the first number components of output-function rows contain the value of the vector-valued output function for each of the n data points
     # e.g. in case of a one-dimensional output function, the first row can be the label for each data point
-    data = pd.read_csv(path, sep=',', header=None)
     dummy = np.zeros(data.shape[1])
     data = pd.concat((pd.DataFrame(dummy).T, data), axis=0, ignore_index=True)
 

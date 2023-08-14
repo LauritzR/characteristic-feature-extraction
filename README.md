@@ -14,11 +14,13 @@ from src.characteristic_feature_extraction.shaply_explanation import shaply_expl
 from src.characteristic_feature_extraction.tree_explanation import tree_explanation
 
 if __name__ == "__main__":
-  path_original_data="path/to/my/no_label_file.csv"
   
-  pfa(path=path_original_data)
   
-  umap(path_original_data=path_original_data, n_neighbors=15)
+  data = pd.read_csv("path/to/my/no_label_file.csv", sep=',', header=None)
+
+  pfa(data)
+  
+  umap(data, n_neighbors=15)
   
   dbscan("umap_output.csv", eps=1, min_samples=15)
   # or optionally:
@@ -27,16 +29,16 @@ if __name__ == "__main__":
   compare_dbscan_labels("comparison_labels.csv")
 
   # optional:
-  split_data(path_original_data, n_splits=5)
+  split_data(data, n_splits=5)
   
-  find_cluster_differences(path_original_data=path_original_data,clusters=[0,1])
+  find_cluster_differences(data,clusters=[0,1])
   
-  get_mutual_information(path_original_data,clusters=[0,1])
+  get_mutual_information(data,clusters=[0,1])
 
-  validate_feature_selection(path_original_data,clusters=[0,1])
+  validate_feature_selection(data,clusters=[0,1])
 
-  shaply_explanation(path_original_data, n_highest_mutual_information=10, clusters=[0,1])
+  shaply_explanation(data, n_highest_mutual_information=10, clusters=[0,1])
   # or
-  tree_explanation(path_original_data, n_highest_mutual_information=10, min_samples_leaf=50, clusters=[0,1])
+  tree_explanation(data, n_highest_mutual_information=10, min_samples_leaf=50, clusters=[0,1])
 
 ```

@@ -6,7 +6,7 @@ import math
 from configparser import ConfigParser
 
 # Function to calculate the Shannon mutal information of features with the components of the output function
-# path_original_data: string path to the original input file
+# data: Dataframe containing the unlabeled data
 # path_principal_features_cluster_differences: string path to the txt file containing the principal features detected by find_cluster_differences
 # path_labels: string path to the file containing lables for the dataset (e.g. the dbscan output file)
 # path_feature_names: path to csv containing the names of the features. The column containing the names must be named 'feature name'
@@ -14,7 +14,7 @@ from configparser import ConfigParser
 # number_output_functions: Number of output features that are to be modeled, i.e. the number of components of the vector-valued output-function. The values are stored in the first number_output_functions rows of the csv-file.
 # basis_log_mutual_information:  the basis for the logarithm used to calculate the mutual information.
 
-def get_mutual_information(path_original_data, path_principal_features_cluster_differences="principal_features_cluster_differences.txt", path_labels="dbscan_labels.csv", path_feature_names="",clusters=[], number_output_functions=1, basis_log_mutual_information=2):
+def get_mutual_information(data, path_principal_features_cluster_differences="principal_features_cluster_differences.txt", path_labels="dbscan_labels.csv", path_feature_names="",clusters=[], number_output_functions=1, basis_log_mutual_information=2):
 
     with open(path_principal_features_cluster_differences) as f:
         pfs = f.readlines()
@@ -30,7 +30,6 @@ def get_mutual_information(path_original_data, path_principal_features_cluster_d
     min_n_datapoints_a_bin = config.getint(
         "PFA PARAMETERS", "min_n_datapoints_a_bin")
 
-    data = pd.read_csv(path_original_data, sep=',', header=None)
     clustering = pd.read_csv(path_labels, sep=',', header=None).to_numpy()
     data = pd.DataFrame(np.c_[clustering, data.T].T)
 

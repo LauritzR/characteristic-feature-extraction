@@ -2,14 +2,14 @@ import numpy as np
 import pandas as pd
 
 # Function to split a data set into several sub data sets to check results for senesitivity of the data set
-# path_original_data: string path to the original input file
+# data: Dataframe containing the unlabeled data
 # n_splits: number of splits/output files to generate
 # path_labels: string path to the file containing lables for the dataset (e.g. the dbscan output file)
 # clusters: list of clusters to be considered in the calculation. If empty, all clusters are considered
 # number_per_cluster: number of samples per cluster in each splitted file
-def split_data(path_original_data, n_splits, path_labels="dbscan_labels.csv",clusters=[], number_per_cluster=[]):
+def split_data(data, n_splits, path_labels="dbscan_labels.csv",clusters=[], number_per_cluster=[]):
 
-    data = pd.read_csv(path_original_data, sep=',', header=None).to_numpy().T
+    data = data.to_numpy().T
     clustering = pd.read_csv(path_labels, sep=',', header=None).to_numpy()
     data = pd.DataFrame(np.c_[clustering, data].T)
     data = data.sort_values(data.columns[0],ascending=True)

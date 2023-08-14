@@ -8,7 +8,7 @@ import random
 
 
 # Function to identify the relations between the label and the identified features via a tree explainer
-# path_original_data: string path to the original input file
+# data: Dataframe containing the unlabeled data
 # path_labels: string path to the file containing lables for the dataset (e.g. the dbscan output file)
 # path_mutual_information: string path to the file containing the labels and their mutual information
 # n_highest_mutual_information:  number of features with the highest mutual information to select. Default value -1 selects all principal features.
@@ -17,12 +17,11 @@ import random
 # clusters: list of clusters to be considered in the calculation. If empty, all clusters are considered
 # max_depth: maximum depth of the tree
 # min_samples_leaf: only split if at least min_samples_leaf are left in the resulting left and right node
-def tree_explanation(path_original_data, path_labels="dbscan_labels.csv", path_mutual_information="mutual_information0.csv", n_highest_mutual_information=-1, number_sweeps=20, feature_selection=0, clusters=[], max_depth=None, min_samples_leaf=1):
-    data = pd.read_csv(path_original_data, sep=",", header=None).transpose()
+def tree_explanation(data, path_labels="dbscan_labels.csv", path_mutual_information="mutual_information0.csv", n_highest_mutual_information=-1, number_sweeps=20, feature_selection=0, clusters=[], max_depth=None, min_samples_leaf=1):
 
     clustering = pd.read_csv(path_labels, sep=',', header=None).to_numpy()
 
-    data_total = pd.DataFrame(np.c_[clustering, data])
+    data_total = pd.DataFrame(np.c_[clustering, data.T])
 
     if len(clusters) > 0:
         drop = [i for i in range(len(data_total)) if data_total.loc[i][0] not in clusters]
