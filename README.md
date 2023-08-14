@@ -41,3 +41,6 @@ if __name__ == "__main__":
   tree_explanation(data, n_highest_mutual_information=10, min_samples_leaf=50, clusters=[0,1])
 
 ```
+
+
+:exclamation: As of June 2023, the UMAP method did not work with numba versions > 0.56.4 :exclamation:
