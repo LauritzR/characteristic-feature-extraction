@@ -43,4 +43,6 @@ if __name__ == "__main__":
 ```
 
 
-:exclamation: As of June 2023, the UMAP method did not work with numba versions > 0.56.4 :exclamation:
+:exclamation: As of June 2023, the UMAP method did not work with numba versions > 0.56.4. Implementation tested with numba version == 0.56.4 :exclamation:
+
+If you use the presented code or the provided Python scripts inspired you for further extensions or variations of this framework, we’ll be happy if you cite our paper “” () in course of which the Python implementations of this git repository have been worked out.
