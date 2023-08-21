@@ -1,5 +1,9 @@
 If you use the presented code or the provided Python scripts inspired you for further extensions or variations of this framework, we’ll be happy if you cite our paper “” () in course of which the Python implementations of this git repository have been worked out.
 
+To preprocess single cell data, see the following git repository:
+
+In the Test_files.zip, there are files with which the pipeline below can be run.
+
 # Example Usage:
 ```Python
 from src.characteristic_feature_extraction.execute_PFA import pfa
@@ -17,7 +21,7 @@ from src.characteristic_feature_extraction.tree_explanation import tree_explanat
 
 if __name__ == "__main__":
   
-  data = pd.read_csv("path/to/my/no_label_file.csv", sep=',', header=None)
+  data = pd.read_csv("path/to/my/preprocessed_data.csv", sep=',', header=None)
 
   pfa(data)
   
