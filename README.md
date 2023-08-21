@@ -2,7 +2,7 @@ If you use the presented code or the provided Python scripts inspired you for fu
 
 To preprocess single cell data, see the following git repository:
 
-In the Test_files.zip, there are files with which the pipeline below can be run.
+In the Test_files.zip in the scr folder, there are files with which the pipeline below can be run.
 
 # Example Usage:
 ```Python
