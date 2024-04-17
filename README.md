@@ -1,4 +1,4 @@
-If you use the presented code or the provided Python scripts inspired you for further extensions or variations of this framework, we’ll be happy if you cite our paper “An orchestra of machine learning methods reveals landmarks in single-cell data exemplified with aging fibroblasts” () in course of which the Python implementations of this git repository have been worked out.
+If you use the presented code or the provided Python scripts inspired you for further extensions or variations of this framework, we’ll be happy if you cite our paper “An orchestra of machine learning methods reveals landmarks in single-cell data exemplified with aging fibroblasts” (https://doi.org/10.1371/journal.pone.0302045) in course of which the Python implementations of this git repository have been worked out.
 
 To preprocess single-cell data, the following git repository may be helpful: https://github.com/AC-PHD/NoLabelPFA
 
